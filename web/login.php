@@ -6,7 +6,7 @@
 	<meta name="description" content="">
 	<meta name="keyword" content="">
 	<link href="./css/bootstrap.min.css" rel="stylesheet"></link>
-	<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+	<link href="./css/datasharing.css" rel="stylesheet"></link>
 </head>
 <body>
 	<div class="page-header text-center">
@@ -119,7 +119,7 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-
+<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
 <script type="text/javascript" src="./js/bootstrap.min.js"></script>
 <script type="text/javascript" src="./js/datasharing.js"></script>
 

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 	<meta charset="utf-8">
-	<title>データ共有 | 操作ログ</title>
+	<title>データ共有 | ユーザー一覧</title>
 	<meta name="description" content="">
 	<meta name="keyword" content="">
 	<link href="./css/bootstrap.min.css" rel="stylesheet"></link>
@@ -19,8 +19,8 @@
 	        <!-- 3.リストの配置 -->
 	        <ul class="nav navbar-nav">
 	            <li><a href="./index.php">データリスト</a></li>
-	            <li><a href="./user_list.php">ユーザー管理</a></li>
-	            <li class="active"><a href="./log.php">操作ログ</a></li>
+	            <li class="active"><a href="./user_list.php">ユーザー管理</a></li>
+	            <li><a href="./log.php">操作ログ</a></li>
 	            <li><a href="logout.php">ログアウト</a></li>
 	        </ul>
 	        <!-- 4.ボタン -->
@@ -37,25 +37,25 @@
 				<h1>ユーザー一覧</h1>
 			</div>
 			<div class="col-md-6">
-				<input type="search" value="新規登録" name="search" class="btn btn-primary">
+				<a href="./user_create.php" class="btn btn-primary">新規登録</a>
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-md-12">
 				<table class="table">
-					<tr><th>操作内容</th><th>操作者</th><th>操作日時日時</th></tr>
+					<tr><th>ユーザー名</th><th>権限</th><th>登録日時</th><th></th></tr>
 					<tr>
-						<td>XXX</td><td>一般</td><td>YYYY/MM/DD H:M:S</td>
+						<td>XXX</td><td>一般</td><td>YYYY/MM/DD H:M:S</td><td><a href="./user_edit.php">[変更] </a><a href="#">[削除]</a></td>
 					</tr>
 					<tr>
-						<td>XXX</td><td>管理</td><td>YYYY/MM/DD H:M:S</td>
+						<td>XXX</td><td>管理</td><td>YYYY/MM/DD H:M:S</td><td><a href="./user_edit.php">[変更] </a><a href="#">[削除]</a></td>
 					</tr>
 					<tr>
-						<td>XXX</td><td>一般</td><td>YYYY/MM/DD H:M:S</td>
+						<td>XXX</td><td>一般</td><td>YYYY/MM/DD H:M:S</td><td><a href="./user_edit.php">[変更] </a><a href="#">[削除]</a></td>
 					</tr>
 					<tr>
-						<td>XXX</td><td>一般</td><td>YYYY/MM/DD H:M:S</td>
+						<td>XXX</td><td>一般</td><td>YYYY/MM/DD H:M:S</td><td><a href="./user_edit.php">[変更] </a><a href="#">[削除]</a></td>
 					</tr>
 				</table>
 			</div>

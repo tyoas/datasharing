@@ -22,6 +22,21 @@
           		<h3>色々な人とデータを共有するサービスです。
           		このサービスを使用することによってデータを色々なところに
           		管理することなく一元管理ができます。</h3>
+          		<div id="carousel_01" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carousel_01" data-slide-to="0" class="active"></li>
+							<li data-target="#carousel_01" data-slide-to="1"></li>
+							<li data-target="#carousel_01" data-slide-to="2"></li>
+							<li data-target="#carousel_01" data-slide-to="3"></li>
+						</ol>
+					<div class="carousel-inner">
+						<div class="item active"> <img src="img/data_image4.jpg" alt=""></div>
+						<div class="item"> <img src="img/data_image1.jpg" alt=""></div>
+						<div class="item"> <img src="img/data_image2.jpg" alt=""></div>
+						<div class="item"> <img src="img/data_image3.jpg" alt=""></div>
+					</div>
+				<a class="left carousel-control" href="#carousel_01" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a> <a class="right carousel-control" href="#carousel_01" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
+				</div>
           	</div>
           </div>
           <div class="col-md-5">
@@ -119,9 +134,14 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="./js/bootstrap.min.js"></script>
-<script type="text/javascript" src="./js/datasharing.js"></script>
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+	<script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./js/datasharing.js"></script>
 
 </body>
 </html>

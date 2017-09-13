@@ -1,3 +1,57 @@
+<?php
+// 共有ファイルの読み込み
+
+// セッションの開始
+
+// セッションの格納判定
+
+// リクエスト判定
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+	// 初期表示
+	;
+
+	// セットトークン
+// 	setToken();
+
+} else {
+	// サブミットされたときの処理
+
+	// チェックトークン
+// 	checkToken();
+
+	// DB接続
+	$pdo = connectDb();
+
+	// 入力項目代入
+	$err = Array();
+	$user_name = $_POST['user_name'];
+	$user_pass = $_POST['user_pass'];
+	$user_kengen = $_POST['user_kengen'];
+
+	// 入力チェック
+	if ($user_name == '') {
+		$err['user_name'] = '氏名が未入力です';
+	} else {
+
+	}
+	if ($user_pass == '') {
+		$err['user_pass'] = 'パスワードが未入力です。';
+	} else {
+
+	}
+	if ($user_kengen == 99) {
+		$err['user_kengen'] == '権限が未設定です。';
+	}
+	// エラー格納チェック
+	if (!empty($err)) {
+		// ユーザー登録
+
+		// 画面遷移
+	}
+
+
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

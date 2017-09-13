@@ -1,3 +1,58 @@
+<?php
+// 設定ファイル等を読み込む
+require_once './config.php';
+require_once './functions.php';
+
+// SESSION開始
+session_start();
+
+// DB接続
+$pdo = connectDb();
+
+// SESSION格納確認
+if (isset($_SESSION['USER'])) {
+	// SESSIONに値があればホーム画面に遷移する
+	;
+
+}
+
+// リクエスト判定
+if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+	// 初期画面表示
+	;
+
+	// トークン格納
+// 	setToken();
+} else {
+	// フォームでサブミットされた時
+
+	// トークンチェック
+// 	checkToken();
+	// 入力項目を格納
+	$user_name = $_POST['user_name'];
+	$user_password = $_POST['user_pass'];
+
+	// エラー格納配列
+	$err = Array();
+	// エラーチェック
+	if ($user_name == '') {
+		$err['user_name'] = '氏名が選択されてません';
+	}
+
+	if ($user_password == '') {
+		$err['user_pass'] = 'パスワードが未入力です';
+	}
+
+	// エラー確認
+	if (!empty($err)) {
+		;
+		exit;
+	}
+
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -16,8 +71,7 @@
     <div class="panel panel-info">
       <div class="panel-body panel-bg">
         <div class="row">
-          <div class="col-md-7" >
-          	<div class="contaner">
+          <div class="col-md-12" >
           		<h1>データ共有システムとは？</h1>
           		<h3>色々な人とデータを共有するサービスです。
           		このサービスを使用することによってデータを色々なところに
@@ -30,37 +84,13 @@
 							<li data-target="#carousel_01" data-slide-to="3"></li>
 						</ol>
 					<div class="carousel-inner">
-						<div class="item active"> <img src="img/data_image4.jpg" alt=""></div>
-						<div class="item"> <img src="img/data_image1.jpg" alt=""></div>
-						<div class="item"> <img src="img/data_image2.jpg" alt=""></div>
-						<div class="item"> <img src="img/data_image3.jpg" alt=""></div>
-					</div>
+						<div class="item active"> <img src="img/data_image4.jpg" alt="" width="500px" height="700px"></div>
+						<div class="item"> <img src="img/data_image1.jpg" alt="" width="500px" height="700px"></div>
+						<div class="item"> <img src="img/data_image2.jpg" alt="" width="500px" height="700px"></div>
+						<div class="item"> <img src="img/data_image3.jpg" alt="" width="500px" height="700px"></div>
 				<a class="left carousel-control" href="#carousel_01" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left"></span> </a> <a class="right carousel-control" href="#carousel_01" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right"></span> </a>
 				</div>
           	</div>
-          </div>
-          <div class="col-md-5">
-           <div class="panel panel-default">
-			  <div class="panel-heading">
-			    ログイン
-			  </div>
-			  <div class="panel-body">
-				<form class="form-horizontal">
-				  <fieldset>
-					<div class="mb10"><input id="textinput" name="textinput" type="text" placeholder="Enter User Name" class="form-control input-md"></div>
-					<div class="mb10"><input id="textinput2" name="textinput2" type="text" placeholder="Enter Password" class="form-control input-md"></div>
-					<div class="form-check">
-						<label class="form-check-label">
-						  <input type="checkbox" class="form-check-input">
-						  Check me out
-						</label>
-					</div>
-					<a href="#"><small> Forgot Password?</small></a><br/>
-					<button id="singlebutton" name="singlebutton" class="btn btn-info btn-sm pull-right">Sign In</button>
-				  </fieldset>
-				</form>
-			  </div>
-			</div>
           </div>
         </div>
       </div>
@@ -81,11 +111,15 @@
 		</script>
       </div>
 
-		<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-	    	Log in
-		</button>
-
+<div class=container>
+	<div class="row">
+		<div class="col-md-12">
+			<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+	    		ログイン
+			</button>
+		</div>
 	</div>
+</div>
 
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -93,21 +127,22 @@
 
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title" id="myModalLabel">Log in</h4>
+					<h4 class="modal-title" id="myModalLabel">ログイン</h4>
 				</div> <!-- /.modal-header -->
 
-				<div class="modal-body">
-					<form role="form">
+
+				<form role="form" method="post">
+					<div class="modal-body">
 						<div class="form-group">
 							<div class="input-group">
-								<input type="text" class="form-control" id="uLogin" placeholder="Login">
+								<input type="text" class="form-control" id="uLogin" placeholder="Login" name="user_name">
 								<label for="uLogin" class="input-group-addon glyphicon glyphicon-user"></label>
 							</div>
 						</div> <!-- /.form-group -->
 
 						<div class="form-group">
 							<div class="input-group">
-								<input type="password" class="form-control" id="uPassword" placeholder="Password">
+								<input type="password" class="form-control" id="uPassword" placeholder="Password" name="user_pass">
 								<label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
 							</div> <!-- /.input-group -->
 						</div> <!-- /.form-group -->
@@ -117,19 +152,19 @@
 								<input type="checkbox"> Remember me
 							</label>
 						</div> <!-- /.checkbox -->
-					</form>
 
-				</div> <!-- /.modal-body -->
+					</div> <!-- /.modal-body -->
 
-				<div class="modal-footer">
-					<button class="form-control btn btn-primary">Ok</button>
+					<div class="modal-footer">
+						<button class="form-control btn btn-primary">ログイン</button>
 
 					<div class="progress">
 						<div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 0%;">
 							<span class="sr-only">progress</span>
 						</div>
 					</div>
-				</div> <!-- /.modal-footer -->
+					</div> <!-- /.modal-footer -->
+				</form>
 
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->

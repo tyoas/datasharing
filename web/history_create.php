@@ -2,71 +2,60 @@
 // 共有ファイルの読み込み
 require_once './config.php';
 require_once './functions.php';
-require_once './lib/password.php';
 
-// セッションの開始
+// セッション開始
 session_start();
 
-// セッションの格納判定
+// err配列の準備
+$err = array();
+$com_msg = array();
+
+// ユーザーセッション確認
 if (!isset($_SESSION['USER'])) {
 	header('Location:'.SITE_URL.'login.php');
 	exit;
 }
 
-// ユーザー情報取得
 $user = $_SESSION['USER'];
+// DB接続
+$pdo = connectDb();
 
 // リクエスト判定
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-	// 初期表示
+	// 初回表示
 
 	// CSRF対策
-	setToken();
-
+// 	setToken();
 } else {
-	// サブミットされたときの処理
+	// フォームからサブミットされた時
 
 	// CSRF対策
-	checkToken();
+// 	checkToken();
 
-	// DB接続
-	$pdo = connectDb();
+	// 入力項目の代入
+	$version_history = $_POST['version_history'];
+	$change_history = $_POST['change_history'];
 
-	// 入力項目代入
-	$err = Array();
-	$comp_msg;
-	$user_name = $_POST['user_name'];
-	$user_pass = $_POST['user_pass'];
-	$user_kengen = $_POST['user_kengen'];
-
-	// 入力チェック
-	if ($user_name == '') {
-		$err['user_name'] = '氏名が未入力です';
+	// エラー格納
+	if ($version_history == '') {
+		$err['version_history'] = 'バージョン番号が未入力です。';
 	} else {
 
 	}
-	if ($user_pass == '') {
-		$err['user_pass'] = 'パスワードが未入力です。';
+
+	if ($change_history == '') {
+		$err['change_history'] = '変更履歴が未入力です。';
+	} else {
+
 	}
 
-	if ($user_kengen == 99) {
-		$err['user_kengen'] == '権限が未設定です。';
-	}
-	// エラー格納チェック
+	// エラーチェック
 	if (empty($err)) {
-		// ユーザー登録
-		user_add($pdo, $user_name, $user_pass, $user_kengen);
-		// 操作履歴保存
-		sousa_useradd($pdo, $user['id']);
-		// PDO接続切断
-		unset($pdo);
-		// メッセージ取得
-		$comp_msg = '登録が完了しました！';
-		// 画面遷移
-// 		header('Location:'.SITE_URL.'user_create.php');
-// 		exit;
+		$com_msg = '登録が完了しました。';
+		create_history($pdo, $version_history, $change_history);
 	}
-
+	// DBの切断
+	unset($pdo);
 }
 ?>
 <!DOCTYPE html>
@@ -80,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	<link href="./css/datasharing.css" rel="stylesheet"></link>
 </head>
 <body>
-
 	<nav class="navbar navbar-default">
 	    <div class="container">
 	        <!-- 2.ヘッダ情報 -->
@@ -91,11 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 	        <ul class="nav navbar-nav">
 	            <li><a href="./index.php">データリスト</a></li>
 <?php if ($user['user_auth'] == 0): ?>
-	            <li class="active"><a href="./user_list.php">ユーザー管理</a></li>
+	            <li><a href="./user_list.php">ユーザー管理</a></li>
 	            <li><a href="./log.php">操作ログ</a></li>
+	            <li class="active"><a href="./version_history.php">バージョン管理</a></li>
 <?php endif; ?>
 				<li><a href="./setting.php">設定</a></li>
-				<li><a href="./version_history.php">バージョン管理</a></li>
 	            <li><a href="logout.php">ログアウト</a></li>
 	        </ul>
 	    </div>
@@ -103,24 +91,18 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 
 	<div class="container">
 
-		<?php if ($comp_msg != ''): ?>
-			<div class="alert alert-success" role="alert"><?php echo $comp_msg; ?></div>
-		<?php endif; ?>
-		<h1>ユーザー情報登録</h1>
+		<h1>開発バージョン履歴登録</h1>
+<?php if ($com_msg): ?>
+<?php echo "<div class='alert alert-success' role='alert'>".$com_msg."</div>"; ?>
+<?php endif; ?>
 		<form method="post">
-			<div class="form-group <?php if ($err['user_name'] != '') echo 'has-error'; ?>">
-				<input type="text" name="user_name" placeholder="氏名を入力して下さい" class="form-control" value="">
-				<span class="help-block"><?php echo $err['user_name']; ?></span>
+			<div class="form-group <?php if ($err['version_history'] != '') echo 'has-error'; ?>">
+				<input type="text" name="version_history" placeholder="バージョン改版番号を入力して下さい" class="form-control" value="">
+				<span class="help-block"><?php echo $err['version_history']; ?></span>
 			</div>
-			<div class="form-group <?php if ($err['user_pass'] != '') echo 'has-error'; ?>">
-				<input type="password" name="user_pass" placeholder="パスワードを入力して下さい" class="form-control" value="">
-				<span class="help-block"><?php echo $err['user_pass']; ?></span>
-			</div>
-			<div class="form-group">
-				<select name="user_kengen" class="form-control">
-					<option value="0">管理者</option>
-					<option value="1">一般</option>
-				</select>
+			<div class="form-group <?php if ($err['change_history'] != '') echo 'has-error'; ?>">
+				<input type="text" name="change_history" placeholder="変更内容を入力して下さい" class="form-control" value="">
+				<span class="help-block"><?php echo $err['change_history']; ?></span>
 			</div>
 			<input type="submit" value="登録" class="btn btn-primary btn-block">
 			<input type="hidden" name="token" value="<?php echo h($_SESSION['sstoken']); ?>" />
